@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja"> <!-- HTML文書の言語を日本語に設定 -->
+
+<head>
+    <meta charset="UTF-8"> <!-- 文字エンコーディングをUTF-8に設定 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>予約フォーム</title> <!-- タイトルを「予約フォーム」に設定 -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            padding-top: 20px;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .label {
+            display: block;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-weight: bold;
+            background-color: #88705a;
+            color: white;
+            border-radius: 4px;
+            text-align: center;
+            margin-top: 5px;
+            /* 上に余白を追加 */
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .priority-buttons,
+        .demand-buttons,
+        .chance-buttons,
+        .Introduction-buttons,
+        .delivery-buttons,
+        .budgety-buttons,
+        .menu-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .priority-buttons button,
+        .demand-buttons button,
+        .chance-buttons button,
+        .Introduction-buttons button,
+        .delivery-buttons button,
+        .budgety-buttons button,
+        .menu-buttons button {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f7f7f7;
+            cursor: pointer;
+            box-sizing: border-box;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .priority-buttons button.active,
+        .demand-buttons button.active,
+        .chance-buttons button.active,
+        .Introduction-buttons button.active,
+        .delivery-buttons button.active,
+        .budgety-buttons button.active,
+        .menu-buttons button.active {
+            background-color: #444;
+            color: #fff;
+        }
+
+        .date-inputs input[type="datetime-local"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #322a25;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .menu-section {
+            display: none;
+        }
+
+        .menu-section.active {
+            display: block;
+        }
+
+        .current-month {
+            font-size: 16px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        .menu-section {
+            display: none;
+        }
+
+        .menu-section.active {
+            display: block;
+        }
+
+        #repairLabel,
+        #repairButtons {
+            display: none;
+        }
+
+        .highlight-background {
+            background-color: #f9f9d6;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            margin-top: 10px;
+            /* 上に余白を追加 */
+        }
+
+        .datetime-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #aaa;
+            font-size: 16px;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+/* 基本スタイル */
+.info-text {
+    margin: 20px 0;
+    font-family: "Noto Sans JP", "Roboto", sans-serif;
+    font-size: 14px;
+    color: #333; /* 読みやすい濃い文字色 */
+    background-color: #f8f9fa;
+    line-height: 1.8;
+    text-align: left;
+    word-wrap: break-word;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    max-width: 800px; /* 横幅制限 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 軽い影を追加 */
+    overflow-y: auto; /* 長文スクロール対応 */
+}
+
+/* 見出しスタイル */
+.info-text h1 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.info-text h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+/* 強調テキスト */
+.info-text strong {
+    color: #007bff;
+}
+
+/* モバイル向け調整 */
+@media (max-width: 768px) {
+    .info-text {
+        font-size: 13px;
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    .info-text h1 {
+        font-size: 16px;
+    }
+
+    .info-text h2 {
+        font-size: 14px;
+    }
+}
+
+        .info-textmemo {
+            margin-top: 20px;
+            /* 上の余白 */
+            margin-bottom: 10px;
+            /* 下に白い隙間を追加 */
+            font-size: 13px;
+            color: #000000;
+            line-height: 1.5;
+            text-align: center;
+            word-wrap: break-word;
+            background-color: #eef9f5;
+            /* 青っぽい背景色を追加 */
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        /* 携帯端末向けのレスポンシブデザイン */
+        @media (max-width: 768px) {
+            .info-textmemo {
+                font-size: 11.5px;
+                /* スマホでは少し小さく */
+                margin-top: 10px;
+                /* 上下のマージンを調整 */
+                line-height: 2.0;
+                /* テキストの高さ調整 */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>株式会社マリエス/Maum千葉店<br>カウンセリングシート</h1>
+        <div class="info-text">以下全て入力後【アンケート送信】ボタンを押してください。</div>
+        <div class="label">お名前(漢字フルネーム)</div>
+        <textarea id="message" rows="1" placeholder="入力してください"></textarea> <!-- メッセージ入力フィールド -->
+
+        <div class="label">お名前(フリガナ)</div>
+        <textarea id="message2" rows="1" placeholder="入力してください"></textarea> <!-- メッセージ入力フィールド -->
+
+        <div class="label">生年月日</div>
+        <textarea id="message3" rows="1" placeholder="入力してください"></textarea> <!-- メッセージ入力フィールド -->
+
+        <div class="label">郵便番号</div>
+        <textarea id="message4" rows="1" placeholder="入力してください"></textarea> <!-- メッセージ入力フィールド -->
+
+        <div class="label">住所</div>
+        <textarea id="message5" rows="1" placeholder="入力してください"></textarea> <!-- メッセージ入力フィールド -->
+
+        <div class="label">電話番号</div>
+        <textarea id="message6" rows="1" placeholder="入力してください"></textarea> <!-- メッセージ入力フィールド -->
+
+        <div class="label">来店のきっかけ</div>
+        <div class="priority-buttons">
+            <button type="button" id="onepriority" onclick="selectpriority(this)">ホットペッパー</button>
+            <button type="button" id="twopriority" onclick="selectpriority(this)">Googleマップ</button>
+            <button type="button" id="threepriority" onclick="selectpriority(this)">Web検索</button>
+            <button type="button" id="fourpriority" onclick="selectpriority(this)">ホームページ</button>
+            <button type="button" id="fivepriority" onclick="selectpriority(this)">紹介</button>
+            <button type="button" id="sixpriority" onclick="selectpriority(this)">その他　(単一選択)</button>
+        </div>
+
+        <div class="label">要望欄</div>
+        <textarea id="message7" rows="4" placeholder="メッセージを入力してください"></textarea>
+
+        <div class="label">注意事項</div>
+        <div class="info-text">・爪に色調変化や他の異常があった時は必ずご連絡ください。<br><br>
+            ・人工爪装着後、爪にひびや裂、リフティング等が起こった場合はすぐにご来店ください。<br><br>
+            ・お直しは7日以内にご連絡いただき一回のみ無料（対象外除く）とさせていただきます。（期間外は有料）<br><br>
+            ・退店後のデザイン、カラー変更は料金が発生いたしますのでご納得頂けない場合はその場でお伝え下さい。<br><br>
+            ・ご予約のキャンセルは予約日の2日前までにご連絡下さい。前日等は直近2週間のご予約はお断りさせて頂きます。<br><br>
+            ・15分以上の遅刻をされますとキャンセルとさせていただきます。<br><br>
+            ・遅刻よるコース変更：変更したコースの金額を頂戴します。<br><br>
+            ・当日・無断キャンセルが2回以上あった場合、今後のご予約はお断りさせていただきます。
+        </div>
+        <div class="budgety-buttons">
+            <button type="button" id="onebudgety" onclick="selectbudgety(this)">上記内容、確認しました。</button>
+        </div>
+
+        <button class="submit-button" onclick="submitForm()">カウンセリングシート送信</button> <!-- フォーム送信ボタン -->
+    </div>
+
+    <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script> <!-- LIFF SDKの読み込み -->
+    <script>
+        let priorityCount = '';
+        let budgetyCount = '';
+
+        // LIFF初期化
+        document.addEventListener('DOMContentLoaded', function () {
+            liff.init({
+                liffId: '2005254357-zKma9BZk' // ここにあなたのLIFF IDを入力
+            }).then(() => {
+                // LIFF初期化成功時の処理
+                console.log('LIFF初期化成功');
+            }).catch((err) => {
+                // LIFF初期化失敗時の処理
+                console.error('LIFF初期化失敗', err);
+            });
+        });
+
+        // プレースホルダーを非表示にする関数
+        function hidePlaceholder(placeholderId) {
+            document.getElementById(placeholderId).style.display = 'none';
+        }
+
+        // プレースホルダーを表示する関数（入力がない場合）
+        function showPlaceholder(inputId, placeholderId) {
+            const input = document.getElementById(inputId);
+            if (!input.value) {
+                document.getElementById(placeholderId).style.display = 'inline';
+            }
+        }
+
+        function selectpriority(element) {
+            // 単一選択項目の処理コード
+            const buttons = document.querySelectorAll('.priority-buttons button');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            // 選択されたボタンだけにactiveクラスを追加
+            element.classList.add('active');
+            priorityCount = element.innerText;
+        }
+
+        function selectbudgety(element) {
+            // 単一選択項目の処理コード
+            const buttons = document.querySelectorAll('.budgety-buttons button');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            // 選択されたボタンだけにactiveクラスを追加
+            element.classList.add('active');
+            budgetyCount = element.innerText;
+        }
+
+        function submitForm() {
+            const message = document.getElementById('message').value;
+            const message2 = document.getElementById('message2').value;
+            const message3 = document.getElementById('message3').value;
+            const message4 = document.getElementById('message4').value;
+            const message5 = document.getElementById('message5').value;
+            const message6 = document.getElementById('message6').value;
+            const message7 = document.getElementById('message7').value;
+            priorityCount: priorityCount;
+            budgetyCount: budgetyCount;
+
+            const formData = {
+                message,
+                message2,
+                message3,
+                message4,
+                message5,
+                message6,
+                message7,
+                priorityCount,
+                budgetyCount,
+            };
+
+            // フォームデータのチェック
+            if (!formData.message) {
+                alert('お名前(漢字フルネーム)を入力してください。');
+                return;
+            }
+
+            // フォームデータのチェック
+            if (!formData.message2) {
+                alert('お名前(フリガナ)を入力してください。');
+                return;
+            }
+
+            // フォームデータのチェック
+            if (!formData.message3) {
+                alert('生年月日を入力してください。');
+                return;
+            }
+
+            // フォームデータのチェック
+            if (!formData.message4) {
+                alert('電話番号を入力してください。');
+                return;
+            }
+
+            // フォームデータのチェック
+            if (!formData.message5) {
+                alert('住所を入力してください。');
+                return;
+            }
+
+            // フォーデータのチェック
+            if (!formData.message6) {
+                alert('お名前(フリガナ)を入力してください。');
+                return;
+            }
+
+            // フォームデータのチェック
+            if (!formData.priorityCount) {
+                alert('ご職業をご選択ください。');
+                return;
+            }
+
+            // フォームデータのチェック
+            if (!formData.budgetyCount) {
+                alert('注意事項をご選択いただけない場合、送信することが出来ません。');
+                return;
+            }
+
+            // LINEトークにメッセージを送信
+            liff.sendMessages([{
+                type: 'text',
+                text: `≪アンケート≫\n【お名前(漢字フルネーム)】\n・${formData.message}\n\n【お名前(フリガナ)】\n・${formData.message2}\n\n【生年月日】\n・${formData.message3}\n\n【郵便番号】\n・${formData.message4}\n\n【住所】\n・${formData.message5}\n\n【電話番号】\n・${formData.message6}\n\n【来店のきっかけ】\n・${formData.priorityCount}\n\n【要望欄】\n・${formData.message7}\n\n【重要項目の同意】\n・${formData.budgetyCount}`
+            }]).then(() => {
+                /* メッセージ送信成功時の処理 */
+                alert('カウンセリングシートのご記入と、重要事項へのご同意、ありがとうございました。');
+                /* LIFFウィンドウを閉じる */
+                liff.closeWindow();
+            }).catch((err) => {
+                /* メッセージ送信失敗時の処理 */
+                console.error('メッセージの送信に失敗しました', err);
+            });
+        }
+
+    </script>
+</body>
+
+</html>
