@@ -253,6 +253,34 @@
                 /* テキストの高さ調整 */
             }
         }
+
+        .info-textsetumei {
+            margin-top: 20px;
+            /* 上の余白 */
+            margin-bottom: 10px;
+            /* 下に白い隙間を追加 */
+            font-size: 13px;
+            color: #000000;
+            line-height: 1.5;
+            text-align: center;
+            word-wrap: break-word;
+            background-color: #eef9f5;
+            /* 青っぽい背景色を追加 */
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        /* 携帯端末向けのレスポンシブデザイン */
+        @media (max-width: 768px) {
+            .info-textsetumei {
+                font-size: 11.5px;
+                /* スマホでは少し小さく */
+                margin-top: 10px;
+                /* 上下のマージンを調整 */
+                line-height: 2.0;
+                /* テキストの高さ調整 */
+            }
+        }
     </style>
 </head>
 
@@ -267,10 +295,12 @@
         <textarea id="message2" rows="1" placeholder="入力してください"></textarea> <!-- メッセージ入力フィールド -->
 
         <div class="label">生年月日</div>
-        <textarea id="message3" rows="1" placeholder="入力してください"></textarea> <!-- メッセージ入力フィールド -->
+        <div class="info-textsetumei">（例）〇〇〇〇年〇〇月〇〇日</div>
+        <textarea id="message3" rows="1" placeholder="（例）〇〇〇〇年〇〇月〇〇日"></textarea> <!-- メッセージ入力フィールド -->
 
         <div class="label">郵便番号</div>
-        <textarea id="message4" rows="1" placeholder="入力してください"></textarea> <!-- メッセージ入力フィールド -->
+        <div class="info-textsetumei">（例）2600013</div>
+        <textarea id="message4" rows="1" placeholder="（例）2600013"></textarea> <!-- メッセージ入力フィールド -->
 
         <div class="label">住所</div>
         <textarea id="message5" rows="1" placeholder="入力してください"></textarea> <!-- メッセージ入力フィールド -->
@@ -285,7 +315,7 @@
             <button type="button" id="threepriority" onclick="selectpriority(this)">Web検索</button>
             <button type="button" id="fourpriority" onclick="selectpriority(this)">ホームページ</button>
             <button type="button" id="fivepriority" onclick="selectpriority(this)">紹介</button>
-            <button type="button" id="sixpriority" onclick="selectpriority(this)">その他　(単一選択)</button>
+            <button type="button" id="sixpriority" onclick="selectpriority(this)">その他</button>
         </div>
 
         <div class="label">要望欄</div>
